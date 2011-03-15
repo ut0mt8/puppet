@@ -1,0 +1,40 @@
+#!/usr/bin/python
+# vim: syntax=python:
+
+# Example output from agent:
+#
+# <<<exim_mailq>>>
+# 4h  2.4K 1PHv65-000NFi-HP <> *** frozen ***
+#		  kghdsghsdgh@yahoo.com
+# 1
+#
+# **************
+#
+# <<<exim_mailq>>>
+# 0
+
+# for now, we just use the last line of the output
+
+# WARN num, CRIT num
+exim_mailq_default_levels = (10, 20)
+
+def inventory_exim_mailq(checkname, info):
+	if len(info) > 0 and info[0] != '':
+		return [(None, 'exim_mailq_default_levels')]
+	else:
+		return []
+
+def check_exim_mailq(item, params, info):
+	count = int((info.pop())[0])
+	if count > params[1]:
+		return (2, 'CRITICAL - Mailqueue length is %d '
+			'(More than threshold: %d)' % (count, params[1]))
+	elif count > params[0]:
+		return (1, 'WARNING - Mailqueue length is %d '
+			'(More than threshold: %d)' % (count, params[0]))
+	else:
+		return (0, 'OK - Mailqueue length is %d ' % count)
+
+	return (3, 'UNKNOWN - Could not find summarizing line in output')
+
+check_info['exim_mailq'] = (check_exim_mailq, "Exim Queue", 1, inventory_exim_mailq)

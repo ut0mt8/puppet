@@ -1,0 +1,9 @@
+# Installed by Puppet for Debian <%= debianname %>
+
+deb http://ftp.fr.debian.org/debian <%= debianname %> main contrib non-free
+deb-src http://ftp.fr.debian.org/debian <%= debianname %> main contrib non-free
+
+deb http://www.backports.org/debian <%= debianname %>-backports main contrib non-free
+
+deb http://security.debian.org/ <%= debianname %>/updates main contrib
+deb-src http://security.debian.org/ <%= debianname %>/updates main contrib

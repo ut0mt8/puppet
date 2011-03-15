@@ -1,0 +1,5 @@
+# Class: raid
+#
+class raid {
+
+}

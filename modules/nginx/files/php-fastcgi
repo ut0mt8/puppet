@@ -1,0 +1,8 @@
+#!/bin/sh
+# puppet file
+
+exec 2>&1
+PHP_FCGI_CHILDREN=2 \
+PHP_FCGI_MAX_REQUESTS=1000 \
+exec /usr/bin/spawn-fcgi -a 127.0.0.1 -p 9000 -C 5 -u www-data -- /usr/bin/php5-cgi
+#exec /usr/bin/spawn-fcgi -n -s /tmp/php.sock -n -u www-data -U www-data -- /usr/bin/php5-cgi

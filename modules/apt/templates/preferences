@@ -1,0 +1,16 @@
+# Installed by Puppet for Debian <%= debianname %>
+Package: *
+Pin: release a=<%= debianname %>-backports
+Pin-Priority: 200
+
+Package: *
+Pin: release a=stable
+Pin-Priority: 700
+
+Package: puppet
+Pin: release a=<%= debianname %>-backports
+Pin-Priority: 900
+
+Package: puppetmaster
+Pin: release a=<%= debianname %>-backports
+Pin-Priority: 900

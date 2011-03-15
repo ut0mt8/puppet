@@ -1,0 +1,8 @@
+#!/bin/sh
+##### XXX THIS SCRIPT IS DEBIAN ONLY, FIXIT WHEN YOU HAVE SOME TIME ######
+if which exim >/dev/null 2>&1 && getent passwd Debian-exim >/dev/null 2>&1;
+then
+  echo '<<<exim_mailq>>>'
+  exim -bpc
+fi
+

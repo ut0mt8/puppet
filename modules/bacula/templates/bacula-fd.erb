@@ -1,0 +1,21 @@
+# PUPPET #
+Director {
+  Name = backup-01.srvc.compagny.priv
+  Password = "FVcaT3srAEQUc"
+}
+
+#
+FileDaemon {  
+  Name = <%= hostname %>
+  FDport = 9102
+  WorkingDirectory = <%= workingdir %>
+  Pid Directory = <%= piddir %>
+  Maximum Concurrent Jobs = 20
+  Heartbeat Interval = 5
+}
+
+Messages {
+  Name = Standard
+  director = backup-01-dir = all, !skipped, !restored
+}
+

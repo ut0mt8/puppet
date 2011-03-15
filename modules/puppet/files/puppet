@@ -1,0 +1,7 @@
+# this file is under puppet control 
+
+# Start puppet on boot?
+START=yes
+
+# Startup options
+DAEMON_OPTS=""

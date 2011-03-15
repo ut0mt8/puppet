@@ -1,0 +1,10 @@
+# Installed by Puppet
+TIMEOUT=300
+
+DISABLE_DIRECT=1
+
+LDAPURI=<%= ldap_server %>
+
+LDAPBASE="ou=auto.master,ou=homedir,ou=private,<%= ldap_base %>"
+
+AUTOFS_DONT_RESTART_ON_UPGRADES=1
