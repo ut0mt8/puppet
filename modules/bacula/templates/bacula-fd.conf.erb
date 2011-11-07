@@ -1,0 +1,20 @@
+Director {
+  Name = <%= dir_fqdn %>
+  Password = <%= dir_passwd %>
+}
+
+#
+FileDaemon {  
+  Name = <%= client_name %>
+  FDport = 9102
+  WorkingDirectory = <%= fd_workingdir %>
+  Pid Directory = <%= fd_piddir %>
+  Maximum Concurrent Jobs = 20
+  Heartbeat Interval = 5
+}
+
+Messages {
+  Name = Standard
+  director = bacula-dir = all, !skipped, !restored
+}
+

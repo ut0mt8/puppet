@@ -1,0 +1,61 @@
+# PUPPET #
+Director {
+    Name = <%= dir_fqdn %>
+    DIRport = 9101
+    Password = <%= dir_passwd %>
+    QueryFile = "<%= conf_base %>/scripts/query.sql"
+    WorkingDirectory = <%= dir_workingdir %>
+    PidDirectory = <%= dir_piddir %>
+    Maximum Concurrent Jobs = 8
+    Messages = Daemon
+}
+
+Catalog {
+    Name = prod
+    dbdriver = "dbi:mysql"
+    DB Address = <%= catalog_fqdn %>
+    DB Port = 3306
+    dbname = <%= catalog_dbname %>
+    user = <%= catalog_user %>
+    password = <%= catalog_passwd %>
+}
+
+Storage {
+    Name = File
+    Address = <%= sd_fqdn %>
+    SDPort = 9103
+    Password = <%= sd_passwd %>
+    Device = FileStorage
+    Media Type = File
+    Heartbeat Interval = 5
+    Maximum Concurrent Jobs = 8
+}
+
+Job {
+    Name = "RestoreFiles"
+    Type = Restore
+    Client = <%= hostname %>
+    FileSet = <%= hostname %>
+    Storage = File
+    Pool = Default
+    Messages = Standard
+    Where = /var/bacula-restores
+}
+
+Pool {
+    Name = Default
+    Pool Type = Backup
+    Recycle = yes
+    AutoPrune = yes
+    Volume Retention = 62 days
+    Label Format = Default-
+    Maximum Volume  Bytes = 4.5G  # ensure we can save these volumes on DVDs if needed
+    Maximum Volume Jobs = 1       # never use the same file for 2 backups
+    Recycle Oldest Volume = Yes   # recyle pruned volume so we don't create a gazillion files
+}
+
+# include variable configuration (clients, jobs, etc ...)
+@<%= conf_base %>/messages.conf
+@|"sh -c 'for f in <%= conf_base %>/clients/*.conf ; do echo @${f} ; done'"
+@|"sh -c 'for f in <%= conf_base %>/filesets/*.conf ; do echo @${f} ; done'"
+

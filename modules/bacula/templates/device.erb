@@ -1,0 +1,10 @@
+Device {
+  Name = Device-<%= client_name %>
+  Media Type = File-<%= client_name %>
+  Archive Device = <%= data_base %>/Device-<%= client_name %>
+  LabelMedia = yes;
+  Random Access = Yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  AlwaysOpen = no;
+}

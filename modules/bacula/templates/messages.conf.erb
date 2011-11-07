@@ -1,0 +1,16 @@
+Messages {
+    Name = Standard
+    mailcommand = "/usr/lib/bacula/bsmtp -h localhost -f \"\(Bacula\) %r\" -s \"Bacula: %t %e of %c %l\" %r"
+    mail on error = <%= mailto %> = all, !skipped
+    console = all, !skipped, !saved
+    append = "/var/lib/bacula/log" = all, !skipped
+}
+
+# Message delivery for daemon messages (no job).
+Messages {
+    Name = Daemon
+    mailcommand = "/usr/lib/bacula/bsmtp -h localhost -f \"\(Bacula\) %r\" -s \"Bacula message\" %r"
+    mail = <%= mailto %> = all, !skipped
+    console = all, !skipped, !saved
+    append = "/var/lib/bacula/log" = all, !skipped
+}

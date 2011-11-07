@@ -1,0 +1,35 @@
+# PUPPET #
+Storage {
+    Name = bacula-sd
+    SDPort = 9103 
+    WorkingDirectory = <%= sd_workingdir %>
+    Pid Directory = <%= sd_piddir %>
+    Maximum Concurrent Jobs = 8
+    Heartbeat Interval = 5
+}
+
+# List of authorized directors.
+Director {
+    Name = <%= dir_fqdn %>
+    Password = <%= dir_passwd %>
+}
+
+# automatic file storage pools
+Device {
+    Name = FileStorage
+    Media Type = File
+    Archive Device = <%= data_base %>
+    LabelMedia = yes;
+    Random Access = yes;
+    AutomaticMount = yes;
+    RemovableMedia = no;
+    AlwaysOpen = yes;
+}
+
+Messages {
+    Name = Standard
+    director = bacula = all
+}
+
+# includes
+@|"sh -c 'for f in <%= conf_base %>/devices/*.conf ; do echo @${f} ; done'"

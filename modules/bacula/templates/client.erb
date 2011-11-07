@@ -1,0 +1,71 @@
+Client {
+  Name = <%= client_name %>
+  Address = <%= client_ip %>
+  FDPort = 9102
+  Catalog = prod
+  Password = <%= dir_passwd %>
+  AutoPrune = yes
+  Heartbeat Interval = 5
+}
+
+Job {
+  Name = <%= client_name %>
+  Type = Backup
+  Client = <%= client_name %>
+  FileSet = <%= client_name %>
+  Schedule = Schedule-<%= client_name %>
+  Storage = File-<%= client_name %>
+  Messages = Standard
+  Pool = Default
+  Full Backup Pool = Full-Pool-<%= client_name %>
+  Incremental Backup Pool = Inc-Pool-<%= client_name %>
+  Write Bootstrap = "<%= data_base %>/BSR/<%= client_name %>.bsr"
+<% if runbefore != "" %> Client Run Before Job = "<%= runbefore %>" <% end %>
+  Priority = 10
+}
+
+Pool {
+  Name = Full-Pool-<%= client_name %>
+  Label Format = Full-<%= client_name %>-
+  Pool Type = Backup
+  Recycle = yes
+  AutoPrune = yes 
+  Volume Retention = 33 days
+  Maximum Volume  Bytes = 4.5G 
+  Maximum Volume Jobs = 1 
+  Recycle Oldest Volume = Yes 
+}
+
+Pool {
+  Name = Inc-Pool-<%= client_name %>
+  Label Format = Inc-<%= client_name %>-
+  Pool Type = Backup
+  Recycle = yes
+  AutoPrune = yes
+  Volume Retention = 7 days
+  Maximum Volume  Bytes = 4.5G
+  Maximum Volume Jobs = 1
+  Recycle Oldest Volume = Yes
+}
+
+Storage {
+  Name = File-<%= client_name %>
+  Address = <%= sd_fqdn %> 
+  SDPort = 9103
+  Password = <%= sd_passwd %>
+  Device = Device-<%= client_name %>
+  Media Type = File-<%= client_name %>
+  Heartbeat Interval = 5
+  Maximum Concurrent Jobs = 2
+}
+
+<% require 'digest/md5'
+day = Digest::MD5.hexdigest(client_name).to_i(16).modulo(7)+1
+min = "%02d" % Digest::MD5.hexdigest(client_name).to_i(16).modulo(60)
+hour = "%02d" % Digest::MD5.hexdigest(client_name).to_i(16).modulo(3) %>
+
+Schedule {
+  Name = Schedule-<%= client_name %>
+  Run = Full on <%= day %> at <%= hour %>:<%= min %>
+  Run = Incremental daily at <%= hour %>:<%= min %>
+}
