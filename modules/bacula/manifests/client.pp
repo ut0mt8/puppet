@@ -18,7 +18,6 @@ class bacula::client (
     $conf_base       = $bacula::params::conf_base,
     $data_base       = $bacula::params::data_base,
     $sd_fqdn         = $bacula::params::sd_fqdn,
-    $sd_admin_fqdn   = $bacula::params::sd_admin_fqdn,
     $sd_passwd       = $bacula::params::sd_passwd,
     $sd_packagename  = $bacula::params::sd_packagename,
     $sd_servicename  = $bacula::params::sd_servicename,

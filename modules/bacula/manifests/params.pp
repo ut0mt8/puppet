@@ -12,8 +12,8 @@ class bacula::params  {
     $catalog_dbname = "bacula"
     
     # Storage configuration
-    $sd_fqdn       = "backup.corp.priv"
-    $sd_passwd     = "FVcaT3srAEQUc"
+    $sd_fqdn   = "backup.corp.priv"
+    $sd_passwd = "XXX"
 
     $sd_packagename = $operatingsystem ? {
         Debian  => "bacula-sd-mysql",
@@ -60,6 +60,7 @@ class bacula::params  {
         Debian  => "/var/run/bacula",
         RedHat  => "/var/run",
         default => "/var/run/bacula",
+    }
 
     # Client configuration
     $fd_packagename = $operatingsystem ? {
